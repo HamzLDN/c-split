@@ -1,2 +1,2 @@
 # c-split
-Alternative to strtok. Easier to use
+Alternative to strtok. Easier and faster to use.
