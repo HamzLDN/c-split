@@ -9,19 +9,21 @@ typedef struct {
 
 BetterSplit split(char* str, char value) {
     int mem_size = 0, str_len = 0;
-    char string[256] = "";
-    for (int i = 0; i <= strlen(str); i++) {
+    int str_size = strlen(str) + 1; // Length of the input string + 1 for null terminator
+    char* string = (char*)malloc(str_size * sizeof(char)); // Dynamically allocate memory for 'string'
+    for (int i = 0; i < strlen(str); i++) {
         if (str[i] == value) {
             mem_size++;
         }
     }
 
-    char** memory = (char**)malloc((mem_size + 1) * sizeof(char*));  // Allocate memory for mem_size + 1 elements
+    char** memory = (char**)malloc((mem_size + 1) * sizeof(char*));
     int section = 0;
     for (int i = 0; i <= strlen(str); i++) {
         if (str[i] == value || str[i] == '\0') {
+            string[str_len] = '\0'; // Add null terminator to 'string'
             memory[section] = strdup(string);
-            memset(string, '\0', sizeof(string));
+            memset(string, '\0', str_size);
             str_len = 0;
             section++;
             continue;
@@ -29,8 +31,9 @@ BetterSplit split(char* str, char value) {
         string[str_len] = str[i];
         str_len++;
     }
-    
-    
+
+    free(string);
+
     BetterSplit result;
     result.memory = memory;
     result.mem_size = mem_size;
